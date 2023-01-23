@@ -3,6 +3,7 @@ import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
 
 import { getEntries } from "./api/contentful";
+import ArticleTeaser from "@/components/ArticleTeaser/ArticleTeaser";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,9 +28,11 @@ export default function Home({ news }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        {news.map((news) => (
-          <div>{news.fields.title}</div>
-        ))}
+        <ul>
+          {news.map((news) => (
+            <ArticleTeaser key={news.sys.id} news={news} />
+          ))}
+        </ul>
       </main>
     </>
   );
