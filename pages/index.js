@@ -11,13 +11,13 @@ export async function getStaticProps() {
 
   return {
     props: {
-      nieuwsContent: news.items,
+      news: news.items,
     },
   };
 }
 
-export default function Home({ nieuwsContent }) {
-  console.log(nieuwsContent);
+export default function Home({ news }) {
+  console.log(news);
   return (
     <>
       <Head>
@@ -26,7 +26,11 @@ export default function Home({ nieuwsContent }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}></main>
+      <main className={styles.main}>
+        {news.map((news) => (
+          <div>{news.fields.title}</div>
+        ))}
+      </main>
     </>
   );
 }
