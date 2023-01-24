@@ -18,7 +18,6 @@ export async function getStaticProps() {
 }
 
 export default function Home({ news }) {
-  console.log(news);
   return (
     <>
       <Head>
