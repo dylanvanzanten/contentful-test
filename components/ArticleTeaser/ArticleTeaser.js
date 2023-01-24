@@ -1,7 +1,18 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const ArticleTeaser = ({ news }) => {
-  const { title, slug, teaserImg, category, author, lead, link } = news.fields;
+  const {
+    title,
+    slug,
+    teaserImg,
+    category,
+    author,
+    coAuthor,
+    lead,
+    link = {},
+  } = news.fields;
+
   return (
     <li className="article-teaser">
       <div className="article-teaser__inner">
@@ -49,16 +60,6 @@ const ArticleTeaser = ({ news }) => {
           </div>
         )}
 
-        {news.fields.author && (
-          <>
-            {author.map((author) => (
-              <p key={author} className="article-teaser__author">
-                {author.fields.name}
-              </p>
-            ))}
-          </>
-        )}
-
         {news.fields.lead && (
           <div className="article-teaser__details">
             <p className="article-teaser__lead copy copy--large copy--faded">
@@ -66,6 +67,25 @@ const ArticleTeaser = ({ news }) => {
             </p>
           </div>
         )}
+
+        {news.fields.author && (
+          <div className="article-teaser__author-container">
+            <p key={author.sys.id} className="article-teaser__author">
+              {author.fields.name}
+            </p>
+            <Image
+              src={`https:${author.fields.avatar.fields.file.url}`}
+              alt={author.fields.avatar.fields.title}
+              quality={100}
+              blurDataURL={`https:${author.fields.avatar.fields.file.url}`}
+              placeholder="blur"
+              width={20}
+              height={20}
+              sizes="100vw"
+            />
+          </div>
+        )}
+
         <Link href={"/nieuws/" + slug}>{link}</Link>
       </div>
     </li>

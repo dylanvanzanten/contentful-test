@@ -1,4 +1,5 @@
 import { getEntries } from "./../api/contentful";
+import { BLOCKS } from "@contentful/rich-text-types";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import Image from "next/image";
 
@@ -28,9 +29,29 @@ export async function getStaticProps({ params }) {
   };
 }
 
+const options = {
+  renderNode: {
+    [BLOCKS.EMBEDDED_ASSET]: ({
+      data: {
+        target: { fields },
+      },
+    }) =>
+      `<figure>
+			<img src="${fields.file.url}" height="${fields.file.details.image.height}" width="${fields.file.details.image.width}" alt="${fields.description}"/>
+			<figcaption>${fields.description}</figcaption>
+			</figure>`,
+  },
+};
+
 const Article = ({ news }) => {
-  const { title, articleImg, category, author, articleContent } = news.fields;
-  console.log(author);
+  const {
+    title,
+    articleImg,
+    category,
+    author,
+    articleContent = {},
+  } = news.fields;
+
   return (
     <>
       <div className="article">
@@ -68,23 +89,19 @@ const Article = ({ news }) => {
             <h1>{title}</h1>
             {news.fields.author && (
               <div className="article-teaser__author-container">
-                {author.map((author) => (
-                  <>
-                    <p key={author.sys.id} className="article-teaser__author">
-                      {author.fields.name}
-                    </p>
-                    <Image
-                      src={`https:${author.fields.avatar.fields.file.url}`}
-                      alt={author.fields.avatar.fields.title}
-                      quality={100}
-                      blurDataURL={`https:${author.fields.avatar.fields.file.url}`}
-                      placeholder="blur"
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                    />
-                  </>
-                ))}
+                <p key={author.sys.id} className="article-teaser__author">
+                  {author.fields.name}
+                </p>
+                <Image
+                  src={`https:${author.fields.avatar.fields.file.url}`}
+                  alt={author.fields.avatar.fields.title}
+                  quality={100}
+                  blurDataURL={`https:${author.fields.avatar.fields.file.url}`}
+                  placeholder="blur"
+                  width={20}
+                  height={20}
+                  sizes="100vw"
+                />
               </div>
             )}
             {news.fields.category && (
@@ -101,7 +118,7 @@ const Article = ({ news }) => {
             )}
             <div
               dangerouslySetInnerHTML={{
-                __html: documentToHtmlString(articleContent),
+                __html: documentToHtmlString(articleContent, options),
               }}
             />
           </article>
