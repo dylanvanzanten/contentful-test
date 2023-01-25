@@ -49,6 +49,7 @@ const Article = ({ news }) => {
     articleImg,
     category,
     author,
+    coAuthor,
     articleContent = {},
   } = news.fields;
 
@@ -87,23 +88,43 @@ const Article = ({ news }) => {
           )}
           <article className="article__content">
             <h1>{title}</h1>
-            {news.fields.author && (
-              <div className="article-teaser__author-container">
-                <p key={author.sys.id} className="article-teaser__author">
-                  {author.fields.name}
-                </p>
-                <Image
-                  src={`https:${author.fields.avatar.fields.file.url}`}
-                  alt={author.fields.avatar.fields.title}
-                  quality={100}
-                  blurDataURL={`https:${author.fields.avatar.fields.file.url}`}
-                  placeholder="blur"
-                  width={20}
-                  height={20}
-                  sizes="100vw"
-                />
-              </div>
-            )}
+            <div className="article-teaser__author-container">
+              <p className="article-teaser__author">{author.fields.name}</p>
+              <Image
+                src={`https:${author.fields.avatar.fields.file.url}`}
+                alt={author.fields.avatar.fields.title}
+                quality={100}
+                width={20}
+                height={20}
+                sizes="100vw"
+                style={{
+                  objectFit: "cover",
+                }}
+              />
+
+              {news.fields.coAuthor && (
+                <>
+                  {coAuthor.map((coAuthor) => (
+                    <div key={coAuthor.sys.id}>
+                      <p className="article-teaser__author">
+                        {coAuthor.fields.name}
+                      </p>
+                      <Image
+                        src={`https:${coAuthor.fields.avatar.fields.file.url}`}
+                        alt={coAuthor.fields.avatar.fields.title}
+                        quality={100}
+                        width={20}
+                        height={20}
+                        sizes="100vw"
+                        style={{
+                          objectFit: "cover",
+                        }}
+                      />
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
             {news.fields.category && (
               <div className="article-teaser__category-container">
                 {category.map((category) => (

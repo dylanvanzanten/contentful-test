@@ -8,7 +8,10 @@ import ArticleTeaser from "@/components/ArticleTeaser/ArticleTeaser";
 const inter = Inter({ subsets: ["latin"] });
 
 export async function getStaticProps() {
-  const news = await getEntries({ content_type: "nieuws" });
+  const news = await getEntries({
+    content_type: "nieuws",
+    order: "sys.createdAt",
+  });
 
   return {
     props: {
@@ -17,7 +20,7 @@ export async function getStaticProps() {
   };
 }
 
-export default function Home({ news }) {
+const Home = ({ news }) => {
   return (
     <>
       <Head>
@@ -35,4 +38,6 @@ export default function Home({ news }) {
       </main>
     </>
   );
-}
+};
+
+export default Home;
