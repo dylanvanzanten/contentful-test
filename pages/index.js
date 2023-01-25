@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 export async function getStaticProps() {
   const news = await getEntries({
     content_type: "nieuws",
-    order: "sys.createdAt",
+    order: "-fields.date",
   });
 
   return {
