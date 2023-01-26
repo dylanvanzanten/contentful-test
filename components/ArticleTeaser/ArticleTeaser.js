@@ -14,8 +14,8 @@ const ArticleTeaser = ({ news }) => {
   } = news.fields;
 
   return (
-    <li className="article-teaser">
-      <div className="article-teaser__inner">
+    <li className="article-teaser" style={{display: "flex", marginBottom: "2rem", paddingBottom: "1rem", borderBottom: "1px solid"}}>
+      <div className="article-teaser__inner" style={{display: "flex", alignItems: "start", justifyContent: "center", flexDirection: "column", gap: "1rem"}}>
         <h2 className="article-teaser__title">{title}</h2>
         {news.fields.teaserImg && (
           <picture className="article-teaser__img-wrapper">
@@ -68,7 +68,8 @@ const ArticleTeaser = ({ news }) => {
           </div>
         )}
 
-        <div className="article-teaser__author-container">
+        <div className="article-teaser__author-container" style={{display: "flex", flexDirection: "column", gap: "1rem"}}>
+        <div style={{display: "flex", alignItems: "center", gap: "1rem"}}>
           <p className="article-teaser__author">{author.fields.name}</p>
           <Image
             src={`https:${author.fields.avatar.fields.file.url}`}
@@ -81,11 +82,11 @@ const ArticleTeaser = ({ news }) => {
               objectFit: "cover",
             }}
           />
-
+          </div>
           {news.fields.coAuthor && (
             <>
               {coAuthor.map((coAuthor) => (
-                <div key={coAuthor.sys.id}>
+                <div key={coAuthor.sys.id} style={{display: "flex", gap: "1rem"}}>
                   <p className="article-teaser__author">
                     {coAuthor.fields.name}
                   </p>
@@ -105,7 +106,6 @@ const ArticleTeaser = ({ news }) => {
             </>
           )}
         </div>
-
         <Link href={"/nieuws/" + slug}>{link}</Link>
       </div>
     </li>
