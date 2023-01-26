@@ -52,6 +52,7 @@ const ArticleTeaser = ({ news }) => {
             {category.map((category) => (
               <span
                 key={category}
+                style={{fontSize: "small", border: "1px solid #ccc", padding: "0.25rem", borderRadius: "1rem", paddingLeft: "1rem", paddingRight: "1rem", marginRight: "0.5rem",}}
                 className={`article-teaser__label article-teaser__category`}
               >
                 {category}
@@ -70,7 +71,7 @@ const ArticleTeaser = ({ news }) => {
 
         <div className="article-teaser__author-container" style={{display: "flex", flexDirection: "column", gap: "1rem"}}>
         <div style={{display: "flex", alignItems: "center", gap: "1rem"}}>
-          <p className="article-teaser__author">{author.fields.name}</p>
+          <p className="article-teaser__author">Author: <strong>{author.fields.name}</strong></p>
           <Image
             src={`https:${author.fields.avatar.fields.file.url}`}
             alt={author.fields.avatar.fields.title}
@@ -88,7 +89,7 @@ const ArticleTeaser = ({ news }) => {
               {coAuthor.map((coAuthor) => (
                 <div key={coAuthor.sys.id} style={{display: "flex", gap: "1rem"}}>
                   <p className="article-teaser__author">
-                    {coAuthor.fields.name}
+                    Co-author: <strong>{coAuthor.fields.name}</strong>
                   </p>
                   <Image
                     src={`https:${coAuthor.fields.avatar.fields.file.url}`}
